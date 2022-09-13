@@ -1,6 +1,14 @@
 # ContentManager
 
 Interface implementation and tests
+Packages used:
+##Main
+### Microsoft.NET.Test.Sdk(17.3.1);
+### xunit(2.4.2);
+### xunit.runner.visualstudio(2.4.5);
+##Additional
+### System.IO.Abstractions(17.2.1);
+### System.IO.Abstractions.TagHelpers(17.2.1);
 
 I. Cole logic in ContentManagement.Core
 
@@ -55,4 +63,4 @@ ContentManagerIntegrationTests - integration tests for the following scenarios:
 
 Implemented are tests for matrixes I IV and V. II and III are in progress.
 
-Intergration tests for rights currently are not developed. After unit tests for the same are resolved, this will be continued;
+Intergration tests for rights currently are not developed. After unit tests for the same are resolved, this will be continued.

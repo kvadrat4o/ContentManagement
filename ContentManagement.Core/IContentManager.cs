@@ -1,6 +1,6 @@
 ﻿using OneBitSoftware.Utilities;
 
-namespace ContentManagement.Core.Infrastructure
+namespace ContentManagement.Core
 {
     /// <summary>
     /// An interface defining the structure of a component responsible for the execution of operations related to file content management.
