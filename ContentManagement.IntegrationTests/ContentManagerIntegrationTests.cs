@@ -14,18 +14,6 @@ namespace ContentManagement.IntegrationTests
 
         #region Utilities
 
-        private static Stream GetStreamForFIle(Guid guid)
-        {
-            var file = new DirectoryInfo(@"\\MSISSOF293\Users\d.vasilev\Documents").GetFiles("Blocked_2022-08-29_09-32-08_DLGvpYS5pNVL" + ".*").FirstOrDefault();
-            byte[] result = new byte[0];
-
-            using (FileStream fs = new FileStream(file.FullName, FileMode.Open, FileAccess.Read))
-            using (BinaryReader binaryReader = new BinaryReader(fs))
-                result = binaryReader.ReadBytes((int)fs.Length);
-
-            return new MemoryStream(result);
-        }
-
         private string GetHashFromByteArrayAsync(byte[] buffer)
         {
             byte[] _emptyBuffer = new byte[0];
@@ -61,27 +49,27 @@ namespace ContentManagement.IntegrationTests
 
         public static IEnumerable<object[]> GetStoreData()
         {
-            yield return new object[] { new Guid("11111111-2222-3333-4444-567890009098"), new StreamInfo() { Stream = GetStreamForFIle(new Guid("11111111-2222-3333-4444-567890009098")) }, new CancellationToken() };
+            yield return new object[] { new Guid("11111111-2222-3333-4444-567890009098"), new StreamInfo() { Stream = new MemoryStream(new byte[] { 83, 116, 114, 101, 97, 107, 115 })}, new CancellationToken() };
         }
 
         public static IEnumerable<object[]> GetStoreNotExistingGuidData()
         {
-            yield return new object[] { "99999090-9999-9999-9999-909090901044", new StreamInfo() { Stream = GetStreamForFIle(new Guid("11111111-2222-3333-4444-567890009098")) }, new CancellationToken() };
+            yield return new object[] { "99999090-9999-9999-9999-909090901044", new StreamInfo() { Stream = new MemoryStream(new byte[] { 83, 116, 114, 101, 97, 107, 115 }) }, new CancellationToken() };
         }
 
         public static IEnumerable<object[]> GetUpdateData()
         {
-            yield return new object[] { new Guid("11111111-2222-3333-4444-567890009098"), new StreamInfo() { Stream = GetStreamForFIle(new Guid("11111111-2222-3333-4444-567890009098")) }, new CancellationToken() };
+            yield return new object[] { new Guid("11111111-2222-3333-4444-567890009098"), new StreamInfo() { Stream = new MemoryStream(new byte[] { 83, 116, 114, 101, 97, 107, 115 }), }, new CancellationToken() };
         }
 
         public static IEnumerable<object[]> GetDeleteThenStoreOrUpdateData()
         {
-            yield return new object[] { new Guid("77887712-1212-3434-4545-999999999999"), new StreamInfo() { Stream = GetStreamForFIle(new Guid("11111111-2222-3333-4444-567890009098")) }, new CancellationToken() };
+            yield return new object[] { new Guid("77887712-1212-3434-4545-999999999999"), new StreamInfo() { Stream = new MemoryStream(new byte[] { 83, 116, 114, 101, 97, 107, 115 }) }, new CancellationToken() };
         }
 
         public static IEnumerable<object[]> GetUpdateNotExistingGuidData()
         {
-            yield return new object[] { "00090005-0008-0004-0007-000300060044", new StreamInfo() { Stream = GetStreamForFIle(new Guid("11111111-2222-3333-4444-567890009098")) }, new CancellationToken() };
+            yield return new object[] { "00090005-0008-0004-0007-000300060044", new StreamInfo() { Stream = new MemoryStream(new byte[] { 83, 116, 114, 101, 97, 107, 115 }) }, new CancellationToken() };
         }
 
         public static IEnumerable<object[]> GetDeleteData()
@@ -452,81 +440,6 @@ namespace ContentManagement.IntegrationTests
 
         #region UpdateAsync, StoreBytesAsync Then GetAsync, GetBytesAsync, GetHashAsync Tests
 
-        //[Theory]
-        //[MemberData(nameof(GetDeleteData))]
-        //public async Task GetAsync_Then_DeleteAsync_Then_GetAsync_Should_Return_Error_Message_If_Id_Exists(Guid id, CancellationToken cancellationToken)
-        //{
-        //    var actual = (await _manager.GetAsync(id, cancellationToken)).ResultObject;
-
-        //    var actualDeleted = await _manager.DeleteAsync(id, cancellationToken);
-
-        //    actual = (await _manager.GetAsync(id, cancellationToken)).ResultObject;
-        //    var expected = new StreamInfo() { Stream = new MemoryStream() };
-
-        //    Assert.True(expected.Equals(actual));
-        //}
-
-        //[Theory]
-        //[MemberData(nameof(GetDeleteThenGetData))]
-        //public async Task GetBytesAsync_Then_DeleteAsync_Then_GetBytesAsync_Should_Return_Null_If_Id_Exists(Guid id, CancellationToken cancellationToken)
-        //{
-        //    var actual = (await _manager.GetBytesAsync(id, cancellationToken)).ResultObject;
-        //    var actualDeleted = await _manager.DeleteAsync(id, cancellationToken);
-
-        //    actual = (await _manager.GetBytesAsync(id, cancellationToken)).ResultObject;
-        //    Assert.Null(actual);
-        //}
-
-        //[Theory]
-        //[MemberData(nameof(GetDeleteThenGetData))]
-        //public async Task GetHashAsync_Then_DeleteAsync_Then_GetHashAsync_Should_Return_Empty_String_If_Id_Exists(Guid id, CancellationToken cancellationToken)
-        //{
-        //    var actual = (await _manager.GetHashAsync(id, cancellationToken)).ResultObject;
-        //    var actualDeleted = await _manager.DeleteAsync(id, cancellationToken);
-
-        //    actual = (await _manager.GetHashAsync(id, cancellationToken)).ResultObject;
-        //    var expected = string.Empty;
-
-        //    Assert.Equal(expected, actual);
-        //}
-
-        //[Theory]
-        //[MemberData(nameof(GetDeleteData))]
-        //public async Task GetAsync_Then_DeleteAsync_Then_GetAsync_Should_Return_Error_Message_If_Id_Exists(Guid id, CancellationToken cancellationToken)
-        //{
-        //    var actual = (await _manager.GetAsync(id, cancellationToken)).ResultObject;
-
-        //    var actualDeleted = await _manager.DeleteAsync(id, cancellationToken);
-
-        //    actual = (await _manager.GetAsync(id, cancellationToken)).ResultObject;
-        //    var expected = new StreamInfo() { Stream = new MemoryStream() };
-
-        //    Assert.True(expected.Equals(actual));
-        //}
-
-        //[Theory]
-        //[MemberData(nameof(GetDeleteThenGetData))]
-        //public async Task GetBytesAsync_Then_DeleteAsync_Then_GetBytesAsync_Should_Return_Null_If_Id_Exists(Guid id, CancellationToken cancellationToken)
-        //{
-        //    var actual = (await _manager.GetBytesAsync(id, cancellationToken)).ResultObject;
-        //    var actualDeleted = await _manager.DeleteAsync(id, cancellationToken);
-
-        //    actual = (await _manager.GetBytesAsync(id, cancellationToken)).ResultObject;
-        //    Assert.Null(actual);
-        //}
-
-        //[Theory]
-        //[MemberData(nameof(GetDeleteThenGetData))]
-        //public async Task GetHashAsync_Then_DeleteAsync_Then_GetHashAsync_Should_Return_Empty_String_If_Id_Exists(Guid id, CancellationToken cancellationToken)
-        //{
-        //    var actual = (await _manager.GetHashAsync(id, cancellationToken)).ResultObject;
-        //    var actualDeleted = await _manager.DeleteAsync(id, cancellationToken);
-
-        //    actual = (await _manager.GetHashAsync(id, cancellationToken)).ResultObject;
-        //    var expected = string.Empty;
-
-        //    Assert.Equal(expected, actual);
-        //}
 
         #endregion
 
